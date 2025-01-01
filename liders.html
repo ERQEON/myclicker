@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таблица Лидеров</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin-top: 20px;
+            background-color: #e0f7fa;
+        }
+        th, td {
+            border: 1px solid #00796b;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #009688;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Таблица Лидеров</h1>
+<table id="leaderboard">
+    <tr>
+        <th>ID</th>
+        <th>Clicks</th>
+    </tr>
+</table>
+
+<script>
+    // Данные о кликах
+    const users = JSON.parse(localStorage.getItem('users')) || {};
+
+    // Функция для обновления таблицы
+    function updateLeaderboard() {
+        const tableBody = document.getElementById('leaderboard');
+        
+        // Отображаем только пользователей с более чем 100 кликами
+        const filteredUsers = Object.entries(users).filter(([id, taps]) => taps > 100);
+
+        // Сортируем по кликам
+        filteredUsers.sort((a, b) => b[1] - a[1]);
+
+        // Заполняем таблицу
+        filteredUsers.forEach(([id, taps]) => {
+            const row = tableBody.insertRow();
+            const idCell = row.insertCell(0);
+            const tapsCell = row.insertCell(1);
+            idCell.textContent = id; // Отображаем настоящий ID пользователя
+            tapsCell.textContent = taps;
+        });
+    }
+
+    // Инициализация пользователей
+    function initUser(userId) {
+        if (!users[userId]) {
+            users[userId] = 0;
+        }
+    }
+
+    // Пример установки количества кликов для пользователя
+    function clickHandler(userId) {
+        users[userId] = (users[userId] || 0) + 1;
+        localStorage.setItem('users', JSON.stringify(users));
+        updateLeaderboard();
+    }
+
+    const userId = '123456'; // Замените на реальный ID пользователя
+
+    // Инициализация и обновление таблицы
+    initUser(userId);
+    clickHandler(userId);
+    updateLeaderboard();
+</script>
+
+</body>
+</html>
