@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nikita™</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            color: #000;
+            text-align: center;
+        }
+        img {
+            width: 300px; 
+            height: auto;
+            cursor: pointer; 
+        }
+        h1 {
+            font-size: 36px; 
+            margin: 20px 0;
+        }
+        h2 {
+            font-size: 24px; 
+            margin: 10px 0;
+        }
+        .button {
+            padding: 10px 15px;
+            font-size: 18px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            background-color: #009688;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #00796b;
+        }
+    </style>
+</head>
+<body>
+
+<button class="button" onclick="window.location.href='liders.html'">Лидеры</button>
+
+<img src="https://lf16-bot-connector-sign.coze.com/obj/bot-studio-bot-connector-us/message_resources/11000007/photo/va/7442164544954761271/file_photo_39cefc7e?lk3s=fd1f132d&x-expires=1767028987&x-signature=EhDz3ruH1qn6CsW%2FS%2FhJMHDfLAQ%3D" alt="Clickable Image" id="clickableImage">
+<h1>Click: <span id="clickCount">0</span></h1>
+<h2>ID: <span id="userId">[User ID]</span></h2>
+
+<script>
+    let tapCount = localStorage.getItem('tapCount') ? parseInt(localStorage.getItem('clickCount')) : 0;
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('userId') || 'неизвестен'; 
+    document.getElementById('userId').textContent = userId;
+    document.getElementById('clickCount').textContent = tapCount;
+
+    document.getElementById('clickableImage').addEventListener('click', function() {
+        tapCount++;
+        document.getElementById('clickCount').textContent = tapCount;
+        localStorage.setItem('clickCount', tapCount);
+    });
+</script>
+
+</body>
+</html>
